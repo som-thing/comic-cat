@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Обсуждение - {{disc.title}}</h1>
+{% if posts[0] != None %}
+    {% for item in posts%}
+    <div class="col-md6 border rounded">
+        <h4>{{item.content}}</h4>
+        <div>
+             Автор - {{item.user.name}}, Дата создания - {{item.created_date}}
+        </div>
+
+        <div>
+            {% if current_user.is_authenticated and current_user == item.user %}
+            <a href="/disc_delete/{{ item.id }}" class="btn btn-danger">
+                Удалить
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div>
+        <h2>В этом обсуждении пока нет постов</h2>
+    </div>
+{% endif %}
+
+<div>
+    <textarea name="comment" cols="40" rows="3"></textarea>
+</div>
+<div>
+<a href="/add_post/" class="btn btn-warning">
+                Отправить
+            </a>
+</div>
+{% endblock %}
