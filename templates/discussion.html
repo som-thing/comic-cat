@@ -2,17 +2,17 @@
 
 {% block content %}
 <h1>Обсуждение - {{disc.title}}</h1>
-{% if posts[0] != None %}
+{% if leng > 0 %}
     {% for item in posts%}
     <div class="col-md6 border rounded">
         <h4>{{item.content}}</h4>
         <div>
-             Автор - {{item.user.name}}, Дата создания - {{item.created_date}}
+            Автор - <a href="/users/{{ item.user.id }}"> {{item.user.name}}</a>, Дата создания - {{item.created_date}}
         </div>
 
         <div>
             {% if current_user.is_authenticated and current_user == item.user %}
-            <a href="/disc_delete/{{ item.id }}" class="btn btn-danger">
+            <a href="/post_delete/{{ item.id }}" class="btn btn-danger">
                 Удалить
             </a>
             {% endif %}
@@ -21,16 +21,19 @@
     {% endfor %}
 {% else %}
     <div>
-        <h2>В этом обсуждении пока нет постов</h2>
+        <h3>В этом обсуждении пока нет постов</h3>
     </div>
 {% endif %}
 
-<div>
-    <textarea name="comment" cols="40" rows="3"></textarea>
-</div>
-<div>
-<a href="/add_post/" class="btn btn-warning">
-                Отправить
-            </a>
-</div>
+{% if current_user.is_authenticated %}
+<form action="" method="post">
+    <p>
+        <label for="content"> Введите сообщение </label>
+        <input type="text" name="content" id="content">
+    </p>
+    <p>
+	    <input type="submit">
+	</p>
+</form>
+{% endif %}
 {% endblock %}

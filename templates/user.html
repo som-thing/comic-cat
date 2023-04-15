@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Профиль пользователя <strong>{{user.name}}</strong></h1>
+<img src="{url_pic}" alt="картинка не найдена">
+<h4 style="text-align: center;">{{user.about}}</h4>
+<div>
+  <br><strong>Дата регистрации:</strong> {{user.created_date}}
+  <br><br><strong>Избранные комиксы:</strong>
+  <div>
+    {% if user.favorites %}
+        комиксы каруселька
+    {% else %}
+      <br>У этого пользователя ещё нет избранных комиксов
+    {% endif %}
+  </div>
+  <br><strong>Работы:</strong>
+  <div>
+    {% if user.favorites %}
+        комиксы каруселька
+    {% else %}
+      <br>У этого пользователя ещё нет созданных комиксов
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

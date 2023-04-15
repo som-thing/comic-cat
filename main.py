@@ -89,7 +89,7 @@ def logout():
     return redirect("/")
 
 
-@app.route('/discs',  methods=['GET', 'POST'])
+@app.route('/discs', methods=['GET', 'POST'])
 @login_required
 def add_news():
     form = DiscussionForm()
@@ -109,9 +109,29 @@ def add_news():
 @app.route('/discussions/<int:id>', methods=['GET', 'POST'])
 def discussion(id):
     db_sess = db_session.create_session()
-    posts = db_sess.query(Posts).filter(Posts.discussion_id == id)
     disc = db_sess.query(Discussions).filter(Discussions.id == id)[0]
-    return render_template("discussion.html", posts=posts, disc=disc)
+    if request.method == 'POST':
+        content = request.form.get("content")
+        if content:
+            post = Posts()
+            post.content = content
+            current_user.posts.append(post)
+            db_sess.merge(current_user)
+            post1 = db_sess.merge(post)
+            disc.posts.append(post1)
+            db_sess.merge(disc)
+            db_sess.commit()
+        return redirect(f'/discussions/{id}')
+    posts = db_sess.query(Posts).filter(Posts.discussion_id == id)
+    leng = len([i for i in posts])
+    return render_template("discussion.html", posts=posts, disc=disc, leng=leng)
+
+
+@app.route('/users/<int:id>')
+def user(id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == id)[0]
+    return render_template("user.html", user=user)
 
 
 """@app.route('/discs/<int:id>', methods=['GET', 'POST'])
@@ -161,6 +181,21 @@ def disc_delete(id):
     else:
         abort(404)
     return redirect('/')
+
+
+@app.route('/post_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def post_delete(id):
+    db_sess = db_session.create_session()
+    post = db_sess.query(Posts).filter(Posts.id == id,
+                                       Posts.user == current_user
+                                       ).first()
+    if post:
+        db_sess.delete(post)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect(f'/discussions/{post.discussion_id}')
 
 
 if __name__ == '__main__':
