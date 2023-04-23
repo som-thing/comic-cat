@@ -20,5 +20,5 @@ class Discussions(SqlAlchemyBase, SerializerMixin):
     user = orm.relationship('User')
     categories = orm.relationship("Category",
                                   secondary="association",
-                                  backref="news")
+                                  backref="discussions")
     posts = orm.relationship("Posts", back_populates='discussion')

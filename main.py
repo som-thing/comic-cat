@@ -31,6 +31,11 @@ def bad_request(_):
 
 @app.route("/")
 def index():
+    return render_template("main_page.html")
+
+
+@app.route("/discussions/")
+def discussions():
     db_sess = db_session.create_session()
     discs = db_sess.query(Discussions)
     return render_template("discussions.html", discs=discs)
@@ -116,7 +121,6 @@ def discussion(id):
             post = Posts()
             post.content = content
             current_user.posts.append(post)
-            db_sess.merge(current_user)
             post1 = db_sess.merge(post)
             disc.posts.append(post1)
             db_sess.merge(disc)

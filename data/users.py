@@ -20,11 +20,13 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
-    favorites = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    comics = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    favorites = categories = orm.relationship("Comics",
+                                              secondary="assoc_favs",
+                                              backref="users")
+    comics = orm.relationship("Comics", back_populates='user')
     discussions = orm.relationship("Discussions", back_populates='user')
     posts = orm.relationship("Posts", back_populates='user')
-    #reviews = orm.relationship("Reviews", back_populates='user')
+    reviews = orm.relationship("Reviews", back_populates='user')
 
     def __repr__(self):
         return f"<User> {self.id} {self.name} {self.email}"

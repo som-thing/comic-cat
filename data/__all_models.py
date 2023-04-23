@@ -2,3 +2,8 @@ from . import discussions
 from . import posts
 from . import users
 from . import category
+from . import chapters
+from . import comics
+from . import pages
+from . import reviews
+from . import genres
