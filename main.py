@@ -43,7 +43,7 @@ def bad_request(_):
 @app.route("/")
 def index():
     db_sess = db_session.create_session()
-    comics = db_sess.query(Comics)
+    comics = reversed(list(db_sess.query(Comics)))
     return render_template("main_page.html", comics=comics)
 
 
