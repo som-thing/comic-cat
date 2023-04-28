@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated and current_user == comic.user %}
+<h1><strong>{{comic.name}}</strong></h1>
+<h2><strong>Загрузка страниц</strong></h2>
+<div class="form-widget">
+<div class="form-result"></div>
+
+<div class="table-responsive">
+	<form action="" method="post" enctype="multipart/form-data">
+	{{ form.hidden_tag() }}
+	
+		<table class="table mb-0 table-responsive">
+			<thead>
+				<tr>
+					<th style="text-align: center; vertical-align: middle;" class="col-2">Номер страницы</th>
+					<th style="text-align: center; vertical-align: middle;" class="col-4">Страница</th>
+					<th style="text-align: center; vertical-align: middle;" class="col-2">Управление</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="">
+					<td style="text-align: center; vertical-align: middle;">
+						<div class="col-xs-1" align="center">
+							{% if pages != 0 %}
+								{{ form.number(class="form-control col-6", value=pages.number+1) }}
+							{% else %}
+								{{ form.number(class="form-control col-6", value=1) }}
+							{% endif %}
+						</div>
+					</td>
+					<td style="text-align: center; vertical-align: middle;">
+						<div class="input-file-row ">
+							{{ form.page.label }}<br>
+							<label class="input-file">
+								{{ form.page(class="form-control") }}
+								<span>Выберите файл</span>
+							</label>
+							<div class="input-file-list"></div>
+							{% for error in form.page.errors %}
+								<p class="alert alert-danger" role="alert">
+									{{ error }}
+								</p>
+							{% endfor %}
+						</div>
+					</td>
+					<td style="text-align: center; vertical-align: middle;">
+						<p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		{{message}}
+	</form>
+</div>
+</div>
+</div>
+{% endif %}
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/loadfiles.js') }}"></script>
+
+{% endblock %}

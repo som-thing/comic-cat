@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1><strong>{{comic.name}}</strong></h1>
+<div style="text-align: center;">
+    <a class="btn btn-primary" href="{{ link }}">Вернуться на страницу комикса</a>
+</div>
+{% if not pages %}
+<h4>В этом комиксе пока нет страниц :(</h4>
+{% else %}
+{% for item in pages %}
+    <div style="text-align: center;">
+        <img src="{{ url_for('static', filename=item.page) }}">
+    </div>
+{% endfor %}
+{% endif %}
+{% endblock %}

@@ -2,25 +2,48 @@
 
 {% block content %}
 <h1>Профиль пользователя <strong>{{user.name}}</strong></h1>
-<img src="{url_pic}" alt="картинка не найдена">
 <h4 style="text-align: center;">{{user.about}}</h4>
 <div>
-  <br><strong>Дата регистрации:</strong> {{user.created_date}}
-  <br><br><strong>Избранные комиксы:</strong>
-  <div>
-    {% if user.favorites %}
-        комиксы каруселька
-    {% else %}
-      <br>У этого пользователя ещё нет избранных комиксов
-    {% endif %}
-  </div>
+  <br><strong>Дата регистрации:</strong> {{user.created_date.strftime('%d.%m.%Y %H:%M')}}
   <br><strong>Работы:</strong>
   <div>
-    {% if user.favorites %}
-        комиксы каруселька
+    {% if comics %}
+        </div><br>
+<div class="container" style = "dispaly: none;">
+	<div id="oc-portfolio" class="owl-carousel portfolio-carousel carousel-widget owl-loaded owl-drag" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4">
+		<div id = "maincarusel" class="owl-stage-outer" >
+			<div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1900px;">
+				{% for item in comics%}
+				<div class="owl-item active" style="width: 217.5px; margin-right: 20px;">
+					<div class="portfolio-item">
+						<div class="portfolio-image">
+							<a href="portfolio-single.html">
+								<img src="{{ url_for('static', filename=item.cover) }}" alt="Open Imagination">
+							</a>
+							<div class="bg-overlay">
+								<div class="bg-overlay-content dark animated fadeOut" data-hover-animate="fadeIn" data-hover-speed="350" style="animation-duration: 350ms;">
+									<a href="{{ url_for('static', filename=item.cover) }}" class="overlay-trigger-icon bg-light text-dark animated fadeInUpSmall" data-hover-animate="fadeInDownSmall" data-hover-animate-out="fadeInUpSmall" data-hover-speed="350" data-lightbox="image" style="animation-duration: 350ms;"><i class="icon-line-plus"></i></a>
+								</div>
+								<div class="bg-overlay-bg dark animated fadeOut" data-hover-animate="fadeIn" data-hover-speed="350" style="animation-duration: 350ms;"></div>
+							</div>
+						</div>
+						<div class="portfolio-desc">
+							<h3><a href="/comics/{{ item.id }}">{{item.name}}</a></h3>
+							<h4>Загрузил - <a href="/users/{{ item.user.id }}"> {{item.user.name}}</a><br>{{item.created_date.strftime('%d.%m.%Y %H:%M')}}</h4>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
     {% else %}
       <br>У этого пользователя ещё нет созданных комиксов
     {% endif %}
   </div>
 </div>
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
 {% endblock %}

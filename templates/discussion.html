@@ -7,7 +7,7 @@
     <div class="col-md6 border rounded">
         <h4>{{item.content}}</h4>
         <div>
-            Автор - <a href="/users/{{ item.user.id }}"> {{item.user.name}}</a>, Дата создания - {{item.created_date}}
+            Автор - <a href="/users/{{ item.user.id }}"> {{item.user.name}}</a>, Дата создания - {{item.created_date.strftime('%d.%m.%Y %H:%M')}}
         </div>
 
         <div>

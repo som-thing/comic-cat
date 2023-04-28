@@ -20,9 +20,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
-    favorites = categories = orm.relationship("Comics",
-                                              secondary="assoc_favs",
-                                              backref="users")
     comics = orm.relationship("Comics", back_populates='user')
     discussions = orm.relationship("Discussions", back_populates='user')
     posts = orm.relationship("Posts", back_populates='user')

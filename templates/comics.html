@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+<style>
+.file-caption.icon-visible .file-caption-name {
+	font-family: 'Lato', sans-serif;
+	color: #666;
+}
+</style>
+
+{% block content %}
+<h1>Добавить новый комикс</h1>
+{% if current_user.is_authenticated %}
+
+<section id="content">
+	<div class="content-wrap">
+		<div class="container clearfix">
+
+			<div class="form-widget">
+
+				<div class="form-result"></div>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<form action="" method="post" enctype="multipart/form-data">
+							{{ form.hidden_tag() }}
+							<p>
+								{{ form.name.label }}<br>
+								{{ form.name(class="form-control") }}<br>
+								{% for error in form.name.errors %}
+									<p class="alert alert-danger" role="alert">
+										{{ error }}
+									</p>
+								{% endfor %}
+							</p>
+							<p>
+								{{ form.about.label }}<br>
+								{{ form.about(class="form-control") }}<br>
+								{% for error in form.about.errors %}
+									<p class="alert alert-danger" role="alert">
+										{{ error }}
+									</p>
+								{% endfor %}
+							</p>
+							<p>
+							<div class="input-file-row">
+								{{ form.cover.label }}<br>
+								<label class="input-file">
+									{{ form.cover(class="form-control") }}
+									<span>Выберите файл</span>
+								</label>
+								<div class="input-file-list"></div>
+								{% for error in form.cover.errors %}
+									<p class="alert alert-danger" role="alert">
+										{{ error }}
+									</p>
+								{% endfor %}
+							</div>
+							</p>
+							<p>
+								{{ form.genres.label }}<br>
+								{{ form.genres(class="form-control") }}<br>
+                            </p>
+							<p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+								{{message}}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% else %}
+    <h2>Необходима авторизация!</h2>
+{% endif %}
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/loadfiles.js') }}"></script>
+
+{% endblock %}

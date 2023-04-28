@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1><strong>{{comic.name}}</strong></h1>
+<div style="width: 80%; height: 600px; position: relative; top: 5px;">
+	<div style="width: 49%; top: 0px; bottom: 0px; left:0px; position: absolute;" >
+		<img style="height: 600px;" src="{{ url_for('static', filename=comic.cover) }}" class="img-responsive">
+	</div>
+	<div style="width: 49%; top: 0px; bottom: 0px; right:0px; position: absolute;">
+		<h4>Описание:</h4>
+		<a>{{comic.about}}</a>
+		<h4><br>Загрузил(а): {{comic.user.name}}</h4>
+		<h4><br>Жанр: {{comic.genres.name}}</h4>
+		{% if pages != 0 %}
+		<h4><br>Страниц: {{pages.number}}</h4>
+		{% else %}
+		<h4><br>Страниц: 0</h4>
+		{% endif %}
+
+		<div style="position: absolute; bottom: 0px; width: 100%">
+			<a class="btn btn-primary" style="width: 100%;" href="/comics/{{comic.id}}/read">Начать читать</a>
+			{% if current_user.is_authenticated and current_user == comic.user %}
+			<a class="btn btn-success" style="width: 100%; margin-top: 15px;" href="/add_page/{{comic.id}}">Добавить страницы</a>
+			<a class="btn btn-danger" style="width: 100%;  margin-top: 15px;" href="/comic_delete/{{comic.id}}">Удалить комикс</a>
+			{% endif %}
+			<a class="btn btn-primary" style="width: 100%; top:0px; margin-top: 15px;" href="/">Вернуться на главную страницу</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

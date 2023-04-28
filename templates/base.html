@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,12 +15,23 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
+	<!-- Range Slider CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/components/ion.rangeslider.css') }}" type="text/css" />
+
+	<!-- Bootstrap File Upload CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/components/bs-filestyle.css') }}" type="text/css" />
+
     <title>{{title}}</title>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="/">Comic-cat!</a>
+        <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Comic-cat!" style="opacity:0.8; filter: alpha(opacity=80);"></a>
+        <form action="/find" method="post" class="form-inline m-0">
+			<input class="form-control mr-sm-2" type="search" placeholder="Поиск" name="findtext" aria-label="Поиск">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+		</form>
+
         {% if current_user.is_authenticated %}
             <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
         {% else %}

@@ -10,11 +10,6 @@ class Genres(SqlAlchemyBase, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True,
                            autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    association_table = sqlalchemy.Table(
-        'assoc_genres',
-        SqlAlchemyBase.metadata,
-        sqlalchemy.Column('comics', sqlalchemy.Integer,
-                          sqlalchemy.ForeignKey('comics.id')),
-        sqlalchemy.Column('genres', sqlalchemy.Integer,
-                          sqlalchemy.ForeignKey('genres.id'))
-    )
+
+    def __str__(self):
+        return self.name

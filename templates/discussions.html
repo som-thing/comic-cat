@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>Обсуждения</h1>
+<a class="btn btn-primary " href="/">Основная страница</a>
 {% if current_user.is_authenticated %}
     <a href="discs" class="btn btn-secondary">Добавить обсуждение</a>
 {% endif %}
@@ -12,7 +13,7 @@
         {{item.content}}
     </div>
     <div>
-        Автор - <a href="/users/{{ item.user.id }}"> {{item.user.name}}</a>, Дата создания - {{item.created_date}}
+        Автор - <a href="/users/{{ item.user.id }}"> {{item.user.name}}</a>, Дата создания - {{item.created_date.strftime('%d.%m.%Y %H:%M')}}
     </div>
 
     <div>
